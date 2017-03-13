@@ -2,17 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {
-    Button,
-    Image,
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
-    TouchableHighlight,
     View,
 } from 'react-native';
 
 import MovieListItem from '../components/MovieListItem';
+import SearchBar from '../components/SearchBar';
 
 class Home extends Component {
     constructor(props) {
@@ -38,19 +35,11 @@ class Home extends Component {
     render() {
         return (
             <View style={styles.scene}>
-                <View style={styles.searchSection}>
-                    <TextInput
-                        style={styles.searchInput}
-                        returnKeyType="search"
-                        placeholder="Movie title"
-                        onChangeText={this.onChangeText}
-                        value={this.state.movieTitleInput}
-                    />
-                    <Button
-                        onPress={this.searchPressed}
-                        title="Search"
-                    />
-                </View>
+                <SearchBar
+                    searchPressed={this.searchPressed}
+                    onChangeText={this.onChangeText}
+                    movieTitle={this.state.movieTitleInput}
+                />
                 <ScrollView style={styles.scrollSection}>
                     {!this.state.searching && this.props.searchedMovies.map((movie) => (
                         <MovieListItem
@@ -70,22 +59,6 @@ const styles = StyleSheet.create({
     scene: {
         flex: 1,
         marginTop: 5
-    },
-    searchSection: {
-        height: 45,
-        borderBottomColor: '#000',
-        borderBottomWidth: 1,
-        padding: 4,
-        flexDirection: 'row'
-    },
-    searchInput: {
-        flex: 0.7,
-        height: 40,
-        paddingVertical: 0,
-        paddingBottom: 5
-    },
-    searchButton: {
-        flex: 0.3
     },
     scrollSection: {
         flex: 0.8
