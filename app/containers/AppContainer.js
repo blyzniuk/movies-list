@@ -88,9 +88,11 @@ function mapStateToProps(state) {
         navigationState: state.navigationState
     }
 }
+
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(ActionCreators, dispatch);
 }
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps

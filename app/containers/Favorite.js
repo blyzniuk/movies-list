@@ -11,6 +11,8 @@ import {
     View,
 } from 'react-native';
 
+import MovieListItem from '../components/MovieListItem';
+
 class Favorite extends Component {
         componentDidMount() {
         this.props.fetchFavoriteMovies();
@@ -26,14 +28,11 @@ class Favorite extends Component {
                             const movie = this.props.favoriteMovies[key];
 
                             return (
-                                <TouchableHighlight key={movie.id} onPress={() => {
-                                    this.props.navigate({key: 'Detail', id: movie.id });}
-                                }>
-                                    <View>
-                                        <Image source={{uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}} style={styles.resultImage}/>
-                                        <Text style={styles.resultText}>{movie.original_title}</Text>
-                                    </View>
-                                </TouchableHighlight>
+                                <MovieListItem
+                                    key={movie.id}
+                                    movie={movie}
+                                    onPress={() => this.props.navigate({key: 'Detail', id: movie.id })}
+                                />
                             )
                         })
                     }
@@ -52,14 +51,6 @@ const styles = StyleSheet.create({
     },
     scrollSection: {
         flex: 0.8
-    },
-    resultImage: {
-        height: 150
-    },
-    resultText: {
-        backgroundColor: '#000',
-        color: '#fff',
-        height: 20
     }
 });
 
