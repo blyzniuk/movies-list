@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {
-    ScrollView,
+    NetInfo,
     StyleSheet,
     Text,
     View,
 } from 'react-native';
 
-import MovieListItem from '../components/MovieListItem';
+import SearchedMoviesList from '../components/SearchedMoviesList';
 import SearchBar from '../components/SearchBar';
 
 class Home extends Component {
@@ -18,9 +18,23 @@ class Home extends Component {
         this.state = {
             movieTitleInput: '',
             searching: false,
-            initialPosition: 0
+            initialPosition: 0,
+            isConnected: false
         };
     }
+
+    componentDidMount() {
+        NetInfo.isConnected.addEventListener('change', this._handleConnectionInfoChange);
+        NetInfo.isConnected.fetch().done((isConnected) => this.setState({isConnected}));
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('change', this._handleConnectionInfoChange);
+    }
+
+    _handleConnectionInfoChange = (isConnected) => {
+        this.setState({isConnected,});
+    };
 
     onChangeText = (movieTitleInput) => {
         this.setState({movieTitleInput});
@@ -32,6 +46,29 @@ class Home extends Component {
             .then(() => this.setState({searching: false}));
     };
 
+    renderMainView = () => {
+        if (!this.state.isConnected) {
+            return (
+                <View>
+                    <Text style={styles.serviceText}>You are offline now</Text>
+                    <Text style={styles.serviceText}>But yours favorite movies are available</Text>
+                </View>
+            );
+        }
+
+        if (this.state.isConnected && this.state.searching) {
+            return <Text style={styles.serviceText}>Searching...</Text>
+        }
+
+
+        return (
+            <SearchedMoviesList
+                searchedMovies={this.props.searchedMovies}
+                navigate={this.props.navigate}
+            />
+        )
+    };
+
     render() {
         return (
             <View style={styles.scene}>
@@ -39,17 +76,9 @@ class Home extends Component {
                     searchPressed={this.searchPressed}
                     onChangeText={this.onChangeText}
                     movieTitle={this.state.movieTitleInput}
+                    isConnected={this.state.isConnected}
                 />
-                <ScrollView style={styles.scrollSection}>
-                    {!this.state.searching && this.props.searchedMovies.map((movie) => (
-                        <MovieListItem
-                            key={movie.id}
-                            movie={movie}
-                            onPress={() => this.props.navigate({key: 'Detail', id: movie.id })}
-                        />
-                    ))}
-                    {this.state.searching && <Text>Searching...</Text>}
-                </ScrollView>
+                {this.renderMainView()}
             </View>
         )
     }
@@ -60,8 +89,10 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 5
     },
-    scrollSection: {
-        flex: 0.8
+    serviceText: {
+        marginTop: 10,
+        textAlign: 'center',
+        fontSize: 20
     }
 });
 

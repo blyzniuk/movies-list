@@ -7,7 +7,7 @@ import {
     View,
 } from 'react-native';
 
-const SearchBar = ({movieTitle, onChangeText, searchPressed}) => (
+const SearchBar = ({movieTitle, onChangeText, searchPressed, isConnected}) => (
     <View style={styles.searchSection}>
         <TextInput
             style={styles.searchInput}
@@ -18,6 +18,7 @@ const SearchBar = ({movieTitle, onChangeText, searchPressed}) => (
         />
         <Button
             onPress={searchPressed}
+            disabled={!isConnected}
             title="Search"
         />
     </View>
