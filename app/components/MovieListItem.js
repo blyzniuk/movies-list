@@ -1,18 +1,19 @@
 import React from 'react';
 
 import {
-    Image,
     StyleSheet,
     Text,
     TouchableHighlight,
     View,
 } from 'react-native';
+import MovieImage from './MovieImage';
 
-const MovieListItem = ({movie, onPress}) => (
+const MovieListItem = ({movie, onPress, isFavorite}) => (
     <TouchableHighlight onPress={onPress}>
         <View>
-            <Image
-                source={{uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}}
+            <MovieImage
+                isFavorite={isFavorite}
+                posterPath={movie.poster_path}
                 style={styles.resultImage}
             />
             <Text style={styles.resultText}>{movie.original_title}</Text>
@@ -22,6 +23,7 @@ const MovieListItem = ({movie, onPress}) => (
 
 const styles = StyleSheet.create({
     resultImage: {
+        width: '100%',
         height: 150
     },
     resultText: {

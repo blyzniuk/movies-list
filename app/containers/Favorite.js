@@ -10,7 +10,6 @@ import {
     TouchableHighlight,
     View,
 } from 'react-native';
-
 import MovieListItem from '../components/MovieListItem';
 
 class Favorite extends Component {
@@ -31,6 +30,7 @@ class Favorite extends Component {
                                 <MovieListItem
                                     key={movie.id}
                                     movie={movie}
+                                    isFavorite
                                     onPress={() => this.props.navigate({key: 'Detail', id: movie.id })}
                                 />
                             )

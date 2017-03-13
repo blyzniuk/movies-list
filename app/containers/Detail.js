@@ -6,12 +6,12 @@ import {ActionCreators} from '../actions';
 import {
     Button,
     View,
-    Image,
     StyleSheet,
     Text,
     TouchableHighlight,
     Vibration
 } from 'react-native';
+import MovieImage from '../components/MovieImage';
 
 class Detail extends Component {
     addToFavorite = () => {
@@ -47,7 +47,11 @@ class Detail extends Component {
                     </Text>
                 </TouchableHighlight>
                 <View>
-                    <Image source={{uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}} style={styles.resultImage} />
+                    <MovieImage
+                        posterPath={movie.poster_path}
+                        isFavorite={this.props.tabsIndex === 1}
+                        style={styles.resultImage}
+                    />
                     <Text style={styles.resultText}>{movie.original_title}</Text>
                 </View>
                 <Button
@@ -62,7 +66,9 @@ class Detail extends Component {
 
 const styles = StyleSheet.create({
     resultImage: {
-        height: 150
+        height: 350,
+        width: '100%',
+        resizeMode: 'contain'
     },
     resultText: {
         backgroundColor: '#000',
@@ -75,7 +81,8 @@ function mapStateToProps(state) {
     return {
         searchedMovies: state.searchedMovies,
         favoriteMovies: state.favoriteMovies,
-        navigationParams: state.navigationParams
+        navigationParams: state.navigationParams,
+        tabsIndex: state.tabs.index
     }
 }
 
