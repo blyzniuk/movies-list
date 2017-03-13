@@ -15,7 +15,7 @@ const MovieListItem = ({movie, onPress}) => (
                 source={{uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`}}
                 style={styles.resultImage}
             />
-            <Text style={styles.resultText}>new {movie.original_title}</Text>
+            <Text style={styles.resultText}>{movie.original_title}</Text>
         </View>
     </TouchableHighlight>
 );

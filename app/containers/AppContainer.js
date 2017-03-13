@@ -8,6 +8,7 @@ import Detail from './Detail';
 
 import {
     Animated,
+    BackAndroid,
     StyleSheet,
     View,
     NavigationExperimental
@@ -21,6 +22,26 @@ const {
 const {PagerStyleInterpolator} = Card;
 
 class AppContainer extends Component {
+    componentDidMount() {
+        BackAndroid.addEventListener('hardwareBackPress', this.backPress);
+    }
+
+    componentWillUnmount() {
+        BackAndroid.removeEventListener('hardwareBackPress', this.backPress);
+    }
+
+    backPress = () => {
+        if (this.props.navigationState.index) {
+            this.props.navigateBack();
+            return true;
+        }
+        if (this.props.tabs.index) {
+            this.props.setTab(0);
+            return true;
+        }
+        return false;
+    };
+
     _render = (transitionProps) => {
         const scenes = transitionProps.scenes.map((scene) => {
             const sceneProps = {
@@ -85,7 +106,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        navigationState: state.navigationState
+        navigationState: state.navigationState,
+        tabs: state.tabs
     }
 }
 

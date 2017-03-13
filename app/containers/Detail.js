@@ -20,7 +20,9 @@ class Detail extends Component {
     };
 
     movie() {
-        return this.props.searchedMovies.find(({id}) => id === this.props.navigationParams.id) || null;
+        return this.props.searchedMovies.find(({id}) => id === this.props.navigationParams.id)
+            || this.props.favoriteMovies[this.props.navigationParams.id]
+            || null;
     }
 
     render() {
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     return {
         searchedMovies: state.searchedMovies,
+        favoriteMovies: state.favoriteMovies,
         navigationParams: state.navigationParams
     }
 }

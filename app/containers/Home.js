@@ -72,15 +72,15 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     searchSection: {
-        height: 30,
+        height: 45,
         borderBottomColor: '#000',
         borderBottomWidth: 1,
-        padding: 5,
+        padding: 4,
         flexDirection: 'row'
     },
     searchInput: {
         flex: 0.7,
-        height: 30,
+        height: 40,
         paddingVertical: 0,
         paddingBottom: 5
     },
